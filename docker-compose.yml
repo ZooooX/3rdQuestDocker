@@ -1,0 +1,28 @@
+services:
+    client:
+        build: client
+        container_name: client
+        ports : 
+            - 3000:3000
+        volumes:
+            - ./client:/usr/src/app
+            - /usr/src/app/node_modules
+        depends_on:
+            - server  
+    server:
+        build: server
+        ports: 
+            - 5000:5000
+        volumes:
+            - ./server:/usr/src/app
+            - /usr/src/app/node_modules
+        container_name: backend
+        depends_on:
+            - mongodb       
+    mongodb:
+        image: mongo
+        volumes: 
+            - ./data:/data/db
+        container_name: db
+        ports : 
+            - 27017:27017     

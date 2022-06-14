@@ -1,0 +1,31 @@
+services:
+    client:
+        build: client
+        container_name: client
+        ports : 
+            - 8080:3000
+        volumes:
+            - ./client:/usr/src/app
+            - /usr/src/app/node_modules
+        depends_on:
+            - server
+        environment:
+            - WATCHPACK_POLLING=true    
+    server:
+        build: server
+        ports: 
+            - 5000:5000
+        command: npm run dev
+        volumes:
+            - ./server:/usr/src/app
+            - /usr/src/app/node_modules
+        container_name: backend
+        depends_on:
+            - mongodb       
+    mongodb:
+        image: mongo
+        volumes: 
+            - ./data:/data/db
+        container_name: db
+        ports : 
+            - 27017:27017     
